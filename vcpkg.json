@@ -1,0 +1,19 @@
+{
+  "name": "bbserver",
+  "version-string": "latest",
+  "dependencies": [
+    "benchmark",
+    "fmt",
+    "gtest",
+    "boost-json",
+    "date",
+    "boost-uuid",
+    "boost-url",
+    "boost-process",
+    "boost-program-options",
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    }
+  ]
+}
