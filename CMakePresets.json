@@ -39,7 +39,8 @@
         "CAN_ACCESS_IN_PORT": "by $ENV{CAN_ACCESS_IN_PORT}",
         "ASAN_OPTIONS": "allocator_may_return_null=1",
         "CMAKE_BUILD_PARALLEL_LEVEL": "24",
-        "CMAKE_MAKE_PROGRAM": "colormake"
+        "CMAKE_MAKE_PROGRAM": "colormake",
+        "VCPKG_GITHUB_HOST": "http://www.example.com"
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",

@@ -10,6 +10,7 @@
     "boost-uuid",
     "boost-url",
     "boost-process",
+    "boost-algorithm",
     "boost-program-options",
     {
       "name": "vcpkg-cmake",

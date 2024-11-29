@@ -15,6 +15,7 @@ find_package(Boost REQUIRED COMPONENTS json)
 find_package(Boost REQUIRED COMPONENTS process)
 find_package(Boost REQUIRED COMPONENTS program_options)
 find_package(date CONFIG REQUIRED)
+find_package(boost_algorithm CONFIG REQUIRED)
 
 find_package(PkgConfig REQUIRED)
 
@@ -39,6 +40,7 @@ target_link_libraries(
     PRIVATE Boost::uuid
     PRIVATE Boost::program_options
     PRIVATE Boost::process
+    PRIVATE Boost::algorithm
     PRIVATE date::date date::date-tz
     )
 add_test(

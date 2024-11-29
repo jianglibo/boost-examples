@@ -6,6 +6,8 @@ cmake_policy(SET CMP0146 OLD)
 project(boost-examples LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 
+message(STATUS "An env vairable, T_VAR_BASHRC: $ENV{T_VAR_BASHRC} , T_VAR_PROFILE: $ENV{T_VAR_PROFILE} T_VAR_BASH_PROFILE: $ENV{T_VAR_BASH_PROFILE} T_VAR_DIRENV: $ENV{T_VAR_DIRENV}")
+
 if(MSVC)
     # Use dynamic runtime libraries
     # set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
