@@ -66,3 +66,4 @@ add_compile_definitions(BUFFERSIZE=2048)
 
 add_subdirectory(gtest)
 add_subdirectory(bm)
+add_subdirectory(sighandler)
