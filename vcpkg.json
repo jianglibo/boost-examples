@@ -11,6 +11,9 @@
     "boost-url",
     "boost-process",
     "boost-algorithm",
+    {
+      "name": "boost-asio"
+    },
     "boost-program-options",
     {
       "name": "vcpkg-cmake",
