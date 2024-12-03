@@ -61,6 +61,8 @@ endif()
 enable_testing()
 add_definitions(-DEIGEN_NO_DEBUG)
 
+set(COMMON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib/src/include)
+
 
 add_compile_definitions(BUFFERSIZE=2048)
 

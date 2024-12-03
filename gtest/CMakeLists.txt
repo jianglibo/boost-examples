@@ -74,7 +74,10 @@ add_test(
 # ----------------------------boost_process_test.cpp------------------------------
 set(T_NAME boost_process_test)
 add_executable(${T_NAME} boost_process_test.cpp)
-# target_include_directories(${T_NAME})
+
+target_include_directories(${T_NAME}
+ PRIVATE ${COMMON_INCLUDE_DIRS}
+)
 
 target_link_libraries(
     ${T_NAME}
