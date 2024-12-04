@@ -3,10 +3,22 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <thread>
+#include <cstdio>
 
 namespace net = boost::asio;  // from <boost/asio.hpp>
+namespace bpv2 = boost::process::v2;
+
+struct FileDeleter {
+  void operator()(FILE* file) const {
+    if (file) fclose(file);
+  }
+};
+
+using UniqueFile = std::unique_ptr<FILE, FileDeleter>;
 
 namespace common {
+
+
 class ThreadNotifier {
  public:
   ThreadNotifier(uint64_t milliseconds = 0ull)
