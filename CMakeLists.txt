@@ -60,6 +60,7 @@ endif()
 
 enable_testing()
 add_definitions(-DEIGEN_NO_DEBUG)
+add_definitions(-DBOOST_PROCESS_VERSION=2)
 
 set(COMMON_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/lib/src/include)
 
