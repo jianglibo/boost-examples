@@ -112,3 +112,92 @@ TEST(BoostExampleProcessTest, sshpk) {
   std::cout << "pos 1" << std::endl;
   notifier.waitForNotification();
 }
+
+TEST(BoostExampleProcessTest, teminatetask) {
+  common::ThreadNotifier notifier(100000);
+  auto proc =
+      bpv2::process(common::get_db_io_context_manager().ioc(),
+                    bpv2::environment::find_executable("sleep"), {"10"});
+  proc.async_wait([&](boost::system::error_code ec, int exit_code) {
+    if (ec) {
+      std::cerr << "Error........: " << ec.message() << std::endl;
+    } else {
+      std::cout << "Exit code........: " << exit_code << std::endl;
+    }
+    // sig.emit(net::cancellation_type::partial);
+  });
+  std::cout << "proc id: " << proc.id() << std::endl;
+
+  net::steady_timer timeout{common::get_db_io_context_manager().ioc(), 2s};
+
+  timeout.async_wait([&](const boost::system::error_code& ec) {
+    if (ec) {
+      std::cerr << "Error: " << ec.message() << std::endl;
+    } else {
+      std::cout << "Timeout!" << std::endl;
+      proc.terminate();
+      std::cout << "Timeout!--" << std::endl;
+
+      std::cout << "exit code: " << proc.exit_code() << std::endl;
+      std::cout << std::boolalpha << "is open: " << proc.is_open() << std::endl;
+      boost::system::error_code ec;
+      std::cout << std::boolalpha << "is running: " << proc.running(ec)
+                << std::endl;
+      if (ec) {
+        std::cerr << "query running Error: " << ec.message() << std::endl;
+      }
+      notifier.notify();
+    }
+  });
+
+  notifier.waitForNotification();
+}
+
+TEST(BoostExampleProcessTest, canceltask) {
+  common::ThreadNotifier notifier(11000);
+  net::cancellation_signal sig;
+  // auto proc =
+  //     bpv2::process(common::get_db_io_context_manager().ioc(),
+  //                   bpv2::environment::find_executable("sleep"), {"10"});
+  // proc.async_wait([&](boost::system::error_code ec, int exit_code) {
+  //   if (ec) {
+  //     std::cerr << "Error: " << ec.message() << std::endl;
+  //   } else {
+  //     std::cout << "Exit code: " << exit_code << std::endl;
+  //   }
+  //   // sig.emit(net::cancellation_type::partial);
+  // });
+
+  // proc.terminate();
+  bpv2::async_execute(bpv2::process(common::get_db_io_context_manager().ioc(),
+                                    "/usr/bin/g++", {"--version"}),
+                      [&](boost::system::error_code ec, int exit_code) {
+                        if (ec) {
+                          std::cerr << "Error: " << ec.message() << std::endl;
+                        } else {
+                          std::cout << "Exit code: " << exit_code << std::endl;
+                        }
+                        // sig.emit(net::cancellation_type::partial);
+                        sig.emit(net::cancellation_type::terminal);
+                      });
+
+  bpv2::async_execute(
+      bpv2::process(common::get_db_io_context_manager().ioc(), "/usr/bin/sleep",
+                    {"10"}),
+      net::bind_cancellation_slot(
+          sig.slot(), [&](boost::system::error_code ec, int exit_code) {
+            // timeout.cancel();  // we're done earlier
+            if (ec) {
+              std::cerr << "Error1: " << ec.message() << std::endl;
+            } else {
+              std::cout << "Exit code1: " << exit_code << std::endl;
+            }
+            notifier.notify();
+          }));
+
+  bpv2::execute(bpv2::process(common::get_db_io_context_manager().ioc(),
+                              bpv2::environment::find_executable("echo"),
+                              {"'*******version'"}));
+
+  notifier.waitForNotification();
+}

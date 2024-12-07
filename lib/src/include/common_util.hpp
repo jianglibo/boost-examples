@@ -1,9 +1,9 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <cstdio>
 #include <iostream>
 #include <thread>
-#include <cstdio>
 
 namespace net = boost::asio;  // from <boost/asio.hpp>
 namespace bpv2 = boost::process::v2;
@@ -17,7 +17,6 @@ struct FileDeleter {
 using UniqueFile = std::unique_ptr<FILE, FileDeleter>;
 
 namespace common {
-
 
 class ThreadNotifier {
  public:
@@ -111,5 +110,6 @@ inline IoContextManager& get_db_io_context_manager(int threads_num = 0) {
   static IoContextManager manager(threads_num);
   return manager;
 }
+
 
 }  // namespace common
